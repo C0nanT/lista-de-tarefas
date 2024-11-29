@@ -1,29 +1,69 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ToDo from "../components/todo";
+import { getToDos } from "../services/getToDos";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Dashboard() {
     const [todos, setTodos] = useState([
-        { id: 1, text: "Comprar leite", category: "Mercado", done: false },
-        { id: 2, text: "Pagar conta de luz", category: "Contas", done: true },
-        { id: 3, text: "Estudar Next.js", category: "Estudos", done: false },
-        { id: 4, text: "Fazer exercícios", category: "Saúde", done: false },
-        { id: 5, text: "Ler livro", category: "Estudos", done: false },
+        { id: 1, text: "Estudar React", done: false, category: "Estudos" },
+        { id: 2, text: "Estudar React", done: false, category: "Estudos" },
     ]);
+
+    const getData = async () => {
+        // try {
+        //     const response = await getToDos();
+        //     if (response.status === "OK") {
+        //         setTodos(response.data);
+        //     } else {
+        //         console.error("#01 - Erro ao buscar dados:", response);
+        //     }
+        // } catch (error) {
+        //     console.error("#02 - Erro ao buscar dados:", error);
+        // } finally {
+        //     // setLoading(false);
+        // }
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     const handleToggle = (id) => {
         setTodos((prevTodos) => prevTodos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)));
     };
     return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-            <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-                <h1 className="text-4xl font-bold">Lista de Tarefas</h1>
-                <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    {todos.map((todo) => (
-                        <ToDo todo={todo} key={todo.id} onToggle={handleToggle} />
-                    ))}
-                </ul>
+        <div className="bg-dark" style={{ minHeight: "100vh" }}>
+            <main className="container bg-dark text-light p-4 rounded shadow-sm">
+                <div className="d-flex justify-content-center">
+                    {/* formulário para adicionar tarefas */}
+                    <form
+                        className="d-flex mb-4 mt-20 gap-3 col-7"
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            const formData = new FormData(event.target);
+                            console.log("Nova tarefa:", formData.get("task"));
+                            console.log("Categoria:", formData.get("category"));
+                        }}
+                    >
+                        <input type="text" name="task" className="form-control" placeholder="Digite uma nova tarefa" />
+                        <div className="col-3">
+                            <input type="text" name="category" className="form-control" placeholder="Categoria" />
+                        </div>
+                        <button type="submit" className="btn btn-primary">
+                            Adicionar
+                        </button>
+                    </form>
+                </div>
+                <div>
+                    <h1 className="text-center mb-4">Lista de Tarefas</h1>
+                    <ul className="list-group">
+                        {todos.map((todo) => (
+                            <ToDo todo={todo} key={todo.id} onToggle={handleToggle} />
+                        ))}
+                    </ul>
+                </div>
             </main>
         </div>
     );
