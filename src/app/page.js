@@ -7,8 +7,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Dashboard() {
     const [todos, setTodos] = useState([
-        { id: 1, text: "Estudar React", done: false, category: "Estudos" },
-        { id: 2, text: "Estudar React", done: false, category: "Estudos" },
+        { id: 1, text: "Estudar React", done: false, category: "Estudos", createdAt: "2021-09-01 00:00:00" },
+        { id: 2, text: "Fazer compras", done: false, category: "Casa", createdAt: "2021-09-01 00:00:00" },
+        { id: 3, text: "Estudar React Native", done: false, category: "Estudos", createdAt: "2021-09-01 00:00:00" },
+        { id: 4, text: "Fazer exercícios", done: false, category: "Saúde", createdAt: "2021-09-01 00:00:00" },
+        { id: 5, text: "Ler um livro", done: false, category: "Estudos", createdAt: "2021-09-01 00:00:00" },
     ]);
 
     const getData = async () => {
