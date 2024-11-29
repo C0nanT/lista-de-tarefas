@@ -7,11 +7,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Dashboard() {
     const [todos, setTodos] = useState([
-        { id: 1, text: "Estudar React", done: false, category: "Estudos", createdAt: "2021-09-01 00:00:00" },
-        { id: 2, text: "Fazer compras", done: false, category: "Casa", createdAt: "2021-09-01 00:00:00" },
-        { id: 3, text: "Estudar React Native", done: false, category: "Estudos", createdAt: "2021-09-01 00:00:00" },
-        { id: 4, text: "Fazer exercícios", done: false, category: "Saúde", createdAt: "2021-09-01 00:00:00" },
-        { id: 5, text: "Ler um livro", done: false, category: "Estudos", createdAt: "2021-09-01 00:00:00" },
+        { id: 1, text: "Planejar o Layout", done: false, category: "Frontend", doneAt: "29/11/2024", createdAt: "26/10/2023", limit: "30/12/2025" },
+        { id: 2, text: "Criar o Header", done: false, category: "Frontend", doneAt: "29/11/2024", createdAt: "26/10/2023", limit: "30/12/2025" },
+        { id: 3, text: "Planejar o Backend", done: false, category: "Backend", doneAt: "29/11/2024", createdAt: "26/10/2023", limit: "30/12/2025" },
+        { id: 4, text: "Montar o banco de dados", done: false, category: "Banco de dados", doneAt: "29/11/2024", createdAt: "26/10/2023", limit: "30/12/2025" },
+        { id: 5, text: "Criar o servidor", done: false, category: "Backend", doneAt: "29/11/2024", createdAt: "26/10/2023", limit: "30/12/2025" },
     ]);
 
     const getData = async () => {
