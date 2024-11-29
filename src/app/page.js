@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import ToDo from "../components/todo";
 import { getToDos } from "../services/getToDos";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FaPlus } from "react-icons/fa";
 
 export default function Dashboard() {
     const [todos, setTodos] = useState([
@@ -37,31 +38,50 @@ export default function Dashboard() {
         setTodos((prevTodos) => prevTodos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)));
     };
     return (
-        <div className="bg-dark" style={{ minHeight: "100vh" }}>
-            <main className="container bg-dark text-light p-4 rounded shadow-sm">
+        <div className="bg-dark text-light" style={{ minHeight: "100vh" }}>
+            <main className="container text-light p-5 rounded">
+                <h1 className="text-center mb-4">Gerenciador de Tarefas</h1>
                 <div className="d-flex justify-content-center">
-                    {/* formulário para adicionar tarefas */}
                     <form
-                        className="d-flex mb-4 mt-20 gap-3 col-7"
+                        className="w-100 p-4 bg-dark text-light rounded shadow-lg"
+                        style={{ maxWidth: "600px" }}
                         onSubmit={(event) => {
                             event.preventDefault();
                             const formData = new FormData(event.target);
                             console.log("Nova tarefa:", formData.get("task"));
                             console.log("Categoria:", formData.get("category"));
+                            console.log("Data Limite:", formData.get("limit"));
                         }}
                     >
-                        <input type="text" name="task" className="form-control" placeholder="Digite uma nova tarefa" />
-                        <div className="col-3">
-                            <input type="text" name="category" className="form-control" placeholder="Categoria" />
+                        <div className="mb-3">
+                            <label htmlFor="task" className="form-label">
+                                Tarefa
+                            </label>
+                            <input type="text" name="task" id="task" className="form-control" placeholder="Digite uma nova tarefa" required />
                         </div>
-                        <button type="submit" className="btn btn-primary">
-                            Adicionar
-                        </button>
+                        <div className="mb-3">
+                            <label htmlFor="category" className="form-label">
+                                Categoria
+                            </label>
+                            <input type="text" name="category" id="category" className="form-control" placeholder="Digite a categoria" required />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="limit" className="form-label">
+                                Data Limite
+                            </label>
+                            <input type="date" name="limit" id="limit" className="form-control" required />
+                        </div>
+                        <div className="d-flex justify-content-center align-items-center">
+                            <button type="submit" className="btn btn-primary d-flex justify-content-center align-items-center shadow-lg">
+                                <FaPlus className="me-2 " />
+                                Adicionar Tarefa
+                            </button>
+                        </div>
                     </form>
                 </div>
-                <div>
-                    <h1 className="text-center mb-4">Lista de Tarefas</h1>
-                    <ul className="list-group">
+                <div className="mt-5">
+                    <h2 className="text-center mb-4">Lista de Tarefas</h2>
+                    <ul className="list-group shadow-lg">
                         {todos.map((todo) => (
                             <ToDo todo={todo} key={todo.id} onToggle={handleToggle} />
                         ))}

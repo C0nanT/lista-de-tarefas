@@ -1,7 +1,6 @@
-import { FaCheck, FaTrashAlt, FaEdit } from "react-icons/fa";
+import { FaCheck, FaTrashAlt } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
 import { useEffect } from "react";
-import $ from "jquery";
 
 export default function ToDo({ todo, onToggle, onDelete, onEdit }) {
     const handleCheckboxChange = () => {
@@ -20,10 +19,10 @@ export default function ToDo({ todo, onToggle, onDelete, onEdit }) {
 
     return (
         <li id={`todo-${todo.id}`} key={todo.id} className="list-group-item d-flex justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-                <button className="btn btn-light d-flex align-items-center" onClick={handleCheckboxChange}>
-                    <input type="checkbox" id={`todo-${todo.id}`} checked={todo.done} onChange={handleCheckboxChange} className="form-check-input me-2 d-none" />
-                    <span>{todo.done && <FaCheck className="text-success" />}</span>
+            <div className="d-flex align-items-center justify-content-center">
+                <button className="btn btn-light d-flex align-items-center justify-content-start" onClick={handleCheckboxChange}>
+                    <input type="checkbox" id={`todo-${todo.id}`} checked={todo.done} onChange={handleCheckboxChange} className="form-check-input d-none" />
+                    {todo.done && <FaCheck className="text-success" />}
                     <label htmlFor={`todo-${todo.id}`} className={`ms-2 ${todo.done ? "text-decoration-line-through text-secondary" : "fw-medium"}`} style={{ cursor: "pointer" }}>
                         #{todo.id} - {todo.text}
                     </label>
@@ -36,10 +35,10 @@ export default function ToDo({ todo, onToggle, onDelete, onEdit }) {
                 <span className="badge bg-secondary text-white me-3">{todo.category}</span>
                 <span className="badge bg-warning text-white me-3">{todo.createdAt}</span>
 
-                <button onClick={handleEdit} className="btn btn-sm btn-primary me-2 text-white">
+                <button onClick={handleEdit} className="shadow-lg btn btn-sm btn-primary me-2 text-white d-flex align-items-center justify-content-center ">
                     <MdOutlineEdit />
                 </button>
-                <button onClick={handleDelete} className="btn btn-sm btn-danger text-white">
+                <button onClick={handleDelete} className="shadow-lg btn btn-sm btn-danger text-white d-flex align-items-center justify-content-center">
                     <FaTrashAlt />
                 </button>
             </div>
