@@ -1,20 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ToDo from "../components/todo";
+import Task from "../components/Task.js";
 import { getTasksApi } from "../services/getTasksApi";
 import { addTaskApi } from "../services/addTaskApi.js";
 import { deleteTaskApi } from "../services/deleteTaskApi.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPlus } from "react-icons/fa";
 export default function Dashboard() {
-    const [todos, setTodos] = useState([]);
+    const [tasks, setTasks] = useState([]);
 
     async function getTasks() {
         try {
             const response = await getTasksApi();
             if (response.status === "OK") {
-                setTodos(response.tasks);
+                setTasks(response.tasks);
             } else {
                 console.log(response.error);
             }
@@ -56,12 +56,12 @@ export default function Dashboard() {
     }, []);
 
     const handleToggle = (id) => {
-        setTodos((prevTodos) => prevTodos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)));
+        setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: !task.done } : task)));
     };
 
     const handleDelete = async (id) => {
         await deleteTask(id);
-        setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     };
 
     return (
@@ -109,12 +109,12 @@ export default function Dashboard() {
                     </form>
                 </div>
                 <div className="mt-5">
-                    {todos.length > 0 ? (
+                    {tasks.length > 0 ? (
                         <>
                             <h2 className="text-center mb-4">Lista de Tarefas</h2>
                             <ul className="list-group shadow-lg">
-                                {todos.map((todo) => (
-                                    <ToDo todo={todo} key={todo.id} onToggle={handleToggle} onDelete={handleDelete} />
+                                {tasks.map((task) => (
+                                    <Task todo={task} key={task.id} onToggle={handleToggle} onDelete={handleDelete} />
                                 ))}
                             </ul>
                         </>
