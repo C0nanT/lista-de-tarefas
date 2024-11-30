@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import ToDo from "../components/todo";
 import { getTasksApi } from "../services/getTasksApi";
+import { addTaskApi } from "../services/addTaskApi.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPlus } from "react-icons/fa";
 export default function Dashboard() {
@@ -11,10 +12,27 @@ export default function Dashboard() {
     async function getTasks() {
         try {
             const response = await getTasksApi();
-
-            await setTodos(response);
+            if (response.status === "OK") {
+                setTodos(response.tasks);
+            } else {
+                console.log(response.error);
+            }
         } catch (error) {
-            console.log("#002 - Erro ao buscar dados:", error);
+            console.log(error);
+        }
+    }
+
+    async function addTask(task) {
+        console.log(task);
+        try {
+            const response = await addTaskApi(task);
+            if (response.status === "OK") {
+                console.log("Tarefa adicionada com sucesso!");
+            } else {
+                console.log(response);
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -25,6 +43,7 @@ export default function Dashboard() {
     const handleToggle = (id) => {
         setTodos((prevTodos) => prevTodos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)));
     };
+
     return (
         <div className="bg-dark text-light" style={{ minHeight: "100vh" }}>
             <main className="container text-light p-5 rounded">
@@ -35,17 +54,19 @@ export default function Dashboard() {
                         style={{ maxWidth: "600px" }}
                         onSubmit={(event) => {
                             event.preventDefault();
-                            const formData = new FormData(event.target);
-                            console.log("Nova tarefa:", formData.get("task"));
-                            console.log("Categoria:", formData.get("category"));
-                            console.log("Data Limite:", formData.get("limit"));
+                            const task = {
+                                description: event.target.description.value,
+                                category: event.target.category.value,
+                                limit_date: event.target.limit.value,
+                            };
+                            addTask(task);
                         }}
                     >
                         <div className="mb-3">
-                            <label htmlFor="task" className="form-label">
+                            <label htmlFor="description" className="form-label">
                                 Tarefa
                             </label>
-                            <input type="text" name="task" id="task" className="form-control" placeholder="Digite uma nova tarefa" required />
+                            <input type="text" name="description" id="description" className="form-control" placeholder="Digite uma nova tarefa" required />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="category" className="form-label">
@@ -57,7 +78,7 @@ export default function Dashboard() {
                             <label htmlFor="limit" className="form-label">
                                 Data Limite
                             </label>
-                            <input type="date" name="limit" id="limit" className="form-control" required />
+                            <input type="date" name="limit" id="limit" className="form-control" />
                         </div>
                         <div className="d-flex justify-content-center align-items-center">
                             <button type="submit" className="btn btn-primary d-flex justify-content-center align-items-center shadow-lg">

@@ -5,7 +5,7 @@ export async function getTasksApi() {
         const response = await axios.get("tasks.php");
         return response.data;
     } catch (error) {
-        console.error("#02 - Erro ao buscar dados:", error);
+        console.error("#01 - Erro ao buscar dados:", error);
         throw error;
     }
 }
