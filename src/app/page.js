@@ -2,36 +2,24 @@
 
 import { useState, useEffect } from "react";
 import ToDo from "../components/todo";
-import { getToDos } from "../services/getToDos";
+import { getTasksApi } from "../services/getTasksApi";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPlus } from "react-icons/fa";
-
 export default function Dashboard() {
-    const [todos, setTodos] = useState([
-        { id: 1, text: "Planejar o Layout", done: false, category: "Frontend", doneAt: "29/11/2024", createdAt: "26/10/2023", limit: "30/12/2025" },
-        { id: 2, text: "Criar o Header", done: false, category: "Frontend", doneAt: "29/11/2024", createdAt: "26/10/2023", limit: "30/12/2025" },
-        { id: 3, text: "Planejar o Backend", done: false, category: "Backend", doneAt: "29/11/2024", createdAt: "26/10/2023", limit: "30/12/2025" },
-        { id: 4, text: "Montar o banco de dados", done: false, category: "Banco de dados", doneAt: "29/11/2024", createdAt: "26/10/2023", limit: "30/12/2025" },
-        { id: 5, text: "Criar o servidor", done: false, category: "Backend", doneAt: "29/11/2024", createdAt: "26/10/2023", limit: "30/12/2025" },
-    ]);
+    const [todos, setTodos] = useState([]);
 
-    const getData = async () => {
-        // try {
-        //     const response = await getToDos();
-        //     if (response.status === "OK") {
-        //         setTodos(response.data);
-        //     } else {
-        //         console.error("#01 - Erro ao buscar dados:", response);
-        //     }
-        // } catch (error) {
-        //     console.error("#02 - Erro ao buscar dados:", error);
-        // } finally {
-        //     // setLoading(false);
-        // }
-    };
+    async function getTasks() {
+        try {
+            const response = await getTasksApi();
+
+            await setTodos(response);
+        } catch (error) {
+            console.log("#002 - Erro ao buscar dados:", error);
+        }
+    }
 
     useEffect(() => {
-        getData();
+        getTasks();
     }, []);
 
     const handleToggle = (id) => {
@@ -40,7 +28,7 @@ export default function Dashboard() {
     return (
         <div className="bg-dark text-light" style={{ minHeight: "100vh" }}>
             <main className="container text-light p-5 rounded">
-                <h1 className="text-center mb-4">Gerenciador de Tarefas</h1>
+                <h1 className="text-center mb-4">Adicionar Tarefa</h1>
                 <div className="d-flex justify-content-center">
                     <form
                         className="w-100 p-4 bg-dark text-light rounded shadow-lg"
@@ -80,12 +68,18 @@ export default function Dashboard() {
                     </form>
                 </div>
                 <div className="mt-5">
-                    <h2 className="text-center mb-4">Lista de Tarefas</h2>
-                    <ul className="list-group shadow-lg">
-                        {todos.map((todo) => (
-                            <ToDo todo={todo} key={todo.id} onToggle={handleToggle} />
-                        ))}
-                    </ul>
+                    {todos.length > 0 ? (
+                        <>
+                            <h2 className="text-center mb-4">Lista de Tarefas</h2>
+                            <ul className="list-group shadow-lg">
+                                {todos.map((todo) => (
+                                    <ToDo todo={todo} key={todo.id} onToggle={handleToggle} />
+                                ))}
+                            </ul>
+                        </>
+                    ) : (
+                        ""
+                    )}
                 </div>
             </main>
         </div>

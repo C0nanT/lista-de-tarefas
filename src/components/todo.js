@@ -22,11 +22,11 @@ export default function ToDo({ todo, onToggle, onDelete, onEdit }) {
             <div className="d-flex align-items-center justify-content-center">
                 <button className="btn btn-light d-flex align-items-center justify-content-start" onClick={handleCheckboxChange}>
                     <input type="checkbox" id={`todo-${todo.id}`} checked={todo.done} onChange={handleCheckboxChange} className="form-check-input d-none" />
-                    {todo.done && <FaCheck className="text-success" />}
+                    {todo.done ? <FaCheck className="text-success" /> : null}
                     <label htmlFor={`todo-${todo.id}`} className={`ms-2 ${todo.done ? "text-decoration-line-through text-secondary" : "fw-medium"}`} style={{ cursor: "pointer" }}>
-                        #{todo.id} - {todo.text}
+                        #{todo.id} - {todo.description}
                     </label>
-                    {todo.done && <span className="badge bg-success ms-2">{todo.doneAt}</span>}
+                    {todo.done ? <span className="badge bg-success ms-2">{todo.doneAt}</span> : null}
                 </button>
                 {!todo.done && <span className="badge bg-danger text-white m-2">{todo.limit}</span>}
             </div>
