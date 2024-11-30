@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import ToDo from "../components/todo";
 import { getTasksApi } from "../services/getTasksApi";
 import { addTaskApi } from "../services/addTaskApi.js";
+import { deleteTaskApi } from "../services/deleteTaskApi.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPlus } from "react-icons/fa";
 export default function Dashboard() {
@@ -36,12 +37,31 @@ export default function Dashboard() {
         }
     }
 
+    async function deleteTask(id) {
+        console.log(id);
+        try {
+            const response = await deleteTaskApi(id);
+            if (response.status === "OK") {
+                console.log("Tarefa deletada com sucesso!");
+            } else {
+                console.log(response);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         getTasks();
     }, []);
 
     const handleToggle = (id) => {
         setTodos((prevTodos) => prevTodos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo)));
+    };
+
+    const handleDelete = async (id) => {
+        await deleteTask(id);
+        setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
     };
 
     return (
@@ -94,7 +114,7 @@ export default function Dashboard() {
                             <h2 className="text-center mb-4">Lista de Tarefas</h2>
                             <ul className="list-group shadow-lg">
                                 {todos.map((todo) => (
-                                    <ToDo todo={todo} key={todo.id} onToggle={handleToggle} />
+                                    <ToDo todo={todo} key={todo.id} onToggle={handleToggle} onDelete={handleDelete} />
                                 ))}
                             </ul>
                         </>
