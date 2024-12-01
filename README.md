@@ -29,3 +29,12 @@ $ cd lista-de-tarefas-front
 
 # Instale as dependências
 $ npm install
+
+# Faça o build do projeto
+$ npm run build
+
+# Inicie o servidor
+$ npm start
+
+# Ou inicie o servidor em modo de desenvolvimento
+$ npm run dev
