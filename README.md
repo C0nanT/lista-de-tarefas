@@ -30,8 +30,9 @@ $ cd lista-de-tarefas-front
 
 # Instale as dependências
 $ npm install
-
-Adicione o endereço do backend no arquivo src/services/axiosInstance.js
+```
+- Adicione o endereço do backend no arquivo src/services/axiosInstance.js
+```bash
 
 # Faça o build do projeto
 $ npm run build
@@ -40,3 +41,10 @@ $ npm run build
 $ npm start
 
 # O servidor iniciará na porta:3000 - acesse <http://localhost:3000>
+```
+## Como usar
+OBS: O gravador não pegou o seletor de data, mas ele existe
+
+https://github.com/user-attachments/assets/4e280c52-f11e-4325-acb7-56004d567255
+
+
