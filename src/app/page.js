@@ -58,7 +58,7 @@ export default function Dashboard() {
         try {
             const response = await editTaskApi(task);
             if (response.status === "OK") {
-                console.log("Tarefa editada com sucesso!");
+                console.log(response);
             } else {
                 console.log(response);
             }
@@ -87,7 +87,9 @@ export default function Dashboard() {
 
     const handleSave = async (updatedTask) => {
         await editTask(updatedTask);
+        updatedTask.limit_date = new Date(updatedTask.limit_date).toLocaleDateString();
         setTasks((prevTasks) => prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
+        //todo ver pq ta mostrando a data -1 dia
     };
 
     return (

@@ -24,7 +24,7 @@ export default function ToDo({ todo, onToggle, onDelete, onEdit }) {
                 <button className="btn btn-light d-flex align-items-center justify-content-start" onClick={handleCheckboxChange}>
                     <input type="checkbox" id={`todo-${todo.id}`} checked={todo.done} onChange={handleCheckboxChange} className="form-check-input d-none" />
                     {todo.done ? <FaCheck className="text-success" /> : null}
-                    <label htmlFor={`todo-${todo.id}`} className={`ms-2 ${todo.done ? "text-decoration-line-through text-secondary" : "fw-medium"}`} style={{ cursor: "pointer" }}>
+                    <label htmlFor={`todo-${todo.id}`} className={`ms-2 text-start ${todo.done ? "text-decoration-line-through text-secondary" : "fw-medium"}`} style={{ cursor: "pointer" }}>
                         #{todo.id} - {todo.description}
                     </label>
                     {todo.done ? <span className="badge bg-success ms-2">{todo.doneAt}</span> : null}
