@@ -5,10 +5,14 @@ import Task from "../components/Task.js";
 import { getTasksApi } from "../services/getTasksApi";
 import { addTaskApi } from "../services/addTaskApi.js";
 import { deleteTaskApi } from "../services/deleteTaskApi.js";
+import { editTaskApi } from "../services/editTaskApi.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPlus } from "react-icons/fa";
+import EditTask from "../components/EditTask.js";
 export default function Dashboard() {
     const [tasks, setTasks] = useState([]);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [currentTask, setCurrentTask] = useState(null);
 
     async function getTasks() {
         try {
@@ -24,11 +28,10 @@ export default function Dashboard() {
     }
 
     async function addTask(task) {
-        console.log(task);
         try {
             const response = await addTaskApi(task);
             if (response.status === "OK") {
-                console.log("Tarefa adicionada com sucesso!");
+                setTasks((prevTasks) => [...prevTasks, response.data]);
             } else {
                 console.log(response);
             }
@@ -51,6 +54,19 @@ export default function Dashboard() {
         }
     }
 
+    async function editTask(task) {
+        try {
+            const response = await editTaskApi(task);
+            if (response.status === "OK") {
+                console.log("Tarefa editada com sucesso!");
+            } else {
+                console.log(response);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         getTasks();
     }, []);
@@ -62,6 +78,16 @@ export default function Dashboard() {
     const handleDelete = async (id) => {
         await deleteTask(id);
         setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+    };
+
+    const handleEdit = (task) => {
+        setCurrentTask(task);
+        setShowEditModal(true);
+    };
+
+    const handleSave = async (updatedTask) => {
+        await editTask(updatedTask);
+        setTasks((prevTasks) => prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
     };
 
     return (
@@ -114,7 +140,7 @@ export default function Dashboard() {
                             <h2 className="text-center mb-4">Lista de Tarefas</h2>
                             <ul className="list-group shadow-lg">
                                 {tasks.map((task) => (
-                                    <Task todo={task} key={task.id} onToggle={handleToggle} onDelete={handleDelete} />
+                                    <Task todo={task} key={task.id} onToggle={handleToggle} onDelete={handleDelete} onEdit={() => handleEdit(task)} />
                                 ))}
                             </ul>
                         </>
@@ -123,6 +149,7 @@ export default function Dashboard() {
                     )}
                 </div>
             </main>
+            {currentTask && <EditTask show={showEditModal} handleClose={() => setShowEditModal(false)} task={currentTask} handleSave={handleSave} />}
         </div>
     );
 }

@@ -3,6 +3,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { useEffect } from "react";
 
 export default function ToDo({ todo, onToggle, onDelete, onEdit }) {
+
     const handleCheckboxChange = () => {
         onToggle(todo.id);
     };
@@ -28,7 +29,7 @@ export default function ToDo({ todo, onToggle, onDelete, onEdit }) {
                     </label>
                     {todo.done ? <span className="badge bg-success ms-2">{todo.doneAt}</span> : null}
                 </button>
-                {!todo.done && <span className="badge bg-danger text-white m-2">{todo.limit}</span>}
+                {!todo.done && <span className="badge bg-danger text-white m-2">{todo.limit_date}</span>}
             </div>
 
             <div className="d-flex align-items-center">
