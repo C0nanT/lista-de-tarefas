@@ -30,8 +30,9 @@ $ cd lista-de-tarefas-front
 
 # Instale as dependências
 $ npm install
-
-Adicione o endereço do backend no arquivo src/services/axiosInstance.js
+```
+- Adicione o endereço do backend no arquivo src/services/axiosInstance.js
+```bash
 
 # Faça o build do projeto
 $ npm run build
