@@ -21,6 +21,8 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 ## Instalação
 
 ```bash
+
+
 # Clone este repositório
 $ git clone https://github.com/C0nanT/lista-de-tarefas-front
 
@@ -36,5 +38,5 @@ $ npm run build
 # Inicie o servidor
 $ npm start
 
-# Ou inicie o servidor em modo de desenvolvimento
-$ npm run dev
+# O servidor inciará na porta:3000 - acesse <http://localhost:3000>
+```
