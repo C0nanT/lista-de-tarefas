@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const baseURL = "http://lista-de-tarefas-back.test";
+const baseURL = "sua_url_base_aqui";
 
 const axiosInstance = axios.create({
     baseURL: baseURL + "/api/",
