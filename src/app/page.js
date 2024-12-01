@@ -1,14 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
 import Task from "../components/Task.js";
+import EditTask from "../components/EditTask.js";
+
 import { getTasksApi } from "../services/getTasksApi";
 import { addTaskApi } from "../services/addTaskApi.js";
 import { deleteTaskApi } from "../services/deleteTaskApi.js";
 import { editTaskApi } from "../services/editTaskApi.js";
+import { completeTaskApi } from "../services/completeTaskApi.js";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPlus } from "react-icons/fa";
-import EditTask from "../components/EditTask.js";
+
 export default function Dashboard() {
     const [tasks, setTasks] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -67,12 +72,26 @@ export default function Dashboard() {
         }
     }
 
+    async function completeTask(id) {
+        try {
+            const response = await completeTaskApi(id);
+            if (response.status === "OK") {
+                response.task.doneAt = new Date(response.task.doneAt).toLocaleDateString();
+                setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: response.task.done, doneAt: response.task.doneAt } : task)));
+            } else {
+                console.log(response);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         getTasks();
     }, []);
 
-    const handleToggle = (id) => {
-        setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: !task.done } : task)));
+    const handleToggle = async (id) => {
+        await completeTask(id);
     };
 
     const handleDelete = async (id) => {

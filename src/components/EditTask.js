@@ -6,15 +6,15 @@ export default function EditTask({ show, handleClose, task, handleSave }) {
         return `${year}-${month}-${day}`;
     };
 
-    const [description, setDescription] = useState(task.description);
-    const [category, setCategory] = useState(task.category);
-    const [limitDate, setLimitDate] = useState(formatDate(task.limit_date));
+    const [description, setDescription] = useState(task.description || "");
+    const [category, setCategory] = useState(task.category || "");
+    const [limitDate, setLimitDate] = useState(formatDate(task.limit_date || ""));
 
     useEffect(() => {
         if (show) {
-            setDescription(task.description);
-            setCategory(task.category);
-            setLimitDate(formatDate(task.limit_date));
+            setDescription(task.description || "");
+            setCategory(task.category || "");
+            setLimitDate(formatDate(task.limit_date || ""));
         }
     }, [show, task]);
 
