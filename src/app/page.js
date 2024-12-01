@@ -23,11 +23,19 @@ export default function Dashboard() {
     const [showEditModal, setShowEditModal] = useState(false);
     const [currentTask, setCurrentTask] = useState(null);
 
+    function sortTasks(tasks) {
+        return tasks.sort((a, b) => {
+            const [dayA, monthA, yearA] = a.limit_date.split("/");
+            const [dayB, monthB, yearB] = b.limit_date.split("/");
+            return new Date(`${yearA}-${monthA}-${dayA}`) - new Date(`${yearB}-${monthB}-${dayB}`);
+        });
+    }
+
     async function getTasks() {
         try {
             const response = await getTasksApi();
             if (response.status === "OK") {
-                setTasks(response.tasks);
+                setTasks(sortTasks(response.tasks));
                 showToast("success", "Tarefas carregadas com sucesso!");
             } else {
                 showToast("error", "#02 - Erro ao carregar tarefas!");
@@ -43,7 +51,7 @@ export default function Dashboard() {
         try {
             const response = await addTaskApi(task);
             if (response.status === "OK") {
-                setTasks((prevTasks) => [...prevTasks, response.data]);
+                setTasks((prevTasks) => sortTasks([...prevTasks, response.data]));
                 showToast("success", "Tarefa adicionada com sucesso!");
             } else {
                 console.log(response);
@@ -78,7 +86,7 @@ export default function Dashboard() {
             const response = await editTaskApi(task);
             if (response.status === "OK") {
                 task.limit_date = new Date(task.limit_date).toLocaleDateString("pt-BR", { timeZone: "UTC" });
-                setTasks((prevTasks) => prevTasks.map((t) => (t.id === task.id ? { ...t, ...task } : t)));
+                setTasks((prevTasks) => sortTasks(prevTasks.map((t) => (t.id === task.id ? { ...t, ...task } : t))));
                 showToast("success", "Tarefa editada com sucesso!");
             } else {
                 showToast("error", "#02 - Erro ao editar tarefa!");
@@ -93,7 +101,7 @@ export default function Dashboard() {
             const response = await completeTaskApi(id);
             if (response.status === "OK") {
                 response.task.doneAt = new Date(response.task.doneAt).toLocaleDateString("pt-BR", { timeZone: "UTC" });
-                setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: response.task.done, doneAt: response.task.doneAt } : task)));
+                setTasks((prevTasks) => sortTasks(prevTasks.map((task) => (task.id === id ? { ...task, done: response.task.done, doneAt: response.task.doneAt } : task))));
                 if (response.task.done) {
                     showToast("success", "Tarefa concluída com sucesso!");
                 } else {
