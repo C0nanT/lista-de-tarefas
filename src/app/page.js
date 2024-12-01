@@ -39,7 +39,7 @@ export default function Dashboard() {
                 showToast("success", "Tarefas carregadas com sucesso!");
             } else {
                 showToast("error", "#02 - Erro ao carregar tarefas!");
-                console.log(response.error);
+                console.log(response);
             }
         } catch (error) {
             showToast("error", "#03 -Erro ao carregar tarefas!");

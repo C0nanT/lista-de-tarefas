@@ -3,8 +3,10 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const baseURL = "http://lista-de-tarefas-back.test";
+
 const axiosInstance = axios.create({
-    baseURL: process.env.BASE_URL,
+    baseURL: baseURL + "/api/",
     timeout: 5000,
     headers: {
         "Content-Type": "application/json",

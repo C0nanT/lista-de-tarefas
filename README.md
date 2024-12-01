@@ -31,13 +31,7 @@ $ cd lista-de-tarefas-front
 # Instale as dependências
 $ npm install
 
-# Clone o arquivo .env.example para .env (Linux/Mac)
-$ cp .env.example .env
-
-# Clone o arquivo .env.example para .env (Windows)
-$ copy .env.example .env
-
-Adicione o valor da BASE_URL no arquivo `.env`
+Adicione o endereço do backend no arquivo src/services/axiosInstance.js
 
 # Faça o build do projeto
 $ npm run build
