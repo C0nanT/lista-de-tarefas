@@ -30,9 +30,11 @@ export default function Dashboard() {
                 setTasks(response.tasks);
                 showToast("success", "Tarefas carregadas com sucesso!");
             } else {
+                showToast("error", "#02 - Erro ao carregar tarefas!");
                 console.log(response.error);
             }
         } catch (error) {
+            showToast("error", "#03 -Erro ao carregar tarefas!");
             console.log(error);
         }
     }
@@ -42,11 +44,14 @@ export default function Dashboard() {
             const response = await addTaskApi(task);
             if (response.status === "OK") {
                 setTasks((prevTasks) => [...prevTasks, response.data]);
+                showToast("success", "Tarefa adicionada com sucesso!");
             } else {
                 console.log(response);
+                showToast("error", "#02 - Erro ao adicionar tarefa!");
             }
         } catch (error) {
             console.log(error);
+            showToast("error", "#03 - Erro ao adicionar tarefa!");
         }
     }
 
@@ -56,11 +61,14 @@ export default function Dashboard() {
             const response = await deleteTaskApi(id);
             if (response.status === "OK") {
                 console.log("Tarefa deletada com sucesso!");
+                showToast("success", "Tarefa deletada com sucesso!");
             } else {
                 console.log(response);
+                showToast("error", "#02 - Erro ao deletar tarefa!");
             }
         } catch (error) {
             console.log(error);
+            showToast("error", "#03 - Erro ao deletar tarefa!");
         }
     }
 
@@ -69,11 +77,14 @@ export default function Dashboard() {
             const response = await editTaskApi(task);
             if (response.status === "OK") {
                 console.log(response);
+                showToast("success", "Tarefa editada com sucesso!");
             } else {
                 console.log(response);
+                showToast("error", "#02 - Erro ao editar tarefa!");
             }
         } catch (error) {
             console.log(error);
+            showToast("error", "#03 - Erro ao editar tarefa!");
         }
     }
 
@@ -83,11 +94,18 @@ export default function Dashboard() {
             if (response.status === "OK") {
                 response.task.doneAt = new Date(response.task.doneAt).toLocaleDateString();
                 setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: response.task.done, doneAt: response.task.doneAt } : task)));
+                if (response.task.done) {
+                    showToast("success", "Tarefa concluída com sucesso!");
+                } else {
+                    showToast("success", "Tarefa desmarcada com sucesso!");
+                }
             } else {
                 console.log(response);
+                showToast("error", "#02 - Erro ao concluir tarefa!");
             }
         } catch (error) {
             console.log(error);
+            showToast("error", "#03 - Erro ao concluir tarefa!");
         }
     }
 

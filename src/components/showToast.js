@@ -13,11 +13,11 @@ const showToast = (type, message) => {
             className: "toast-success",
             progressClassName: "Toastify__progress-bar--success",
         });
-    } else if (type === "fail") {
+    } else if (type === "error") {
         toast.error(message, {
             ...options,
-            className: "toast-fail",
-            progressClassName: "Toastify__progress-bar--fail",
+            className: "toast-error",
+            progressClassName: "Toastify__progress-bar--error",
         });
     }
 };
