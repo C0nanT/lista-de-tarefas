@@ -15,3 +15,21 @@ body {
     background: var(--background);
     font-family: Arial, Helvetica, sans-serif;
 }
+
+.toast-success {
+    background-color: rgb(179, 244, 179) !important;
+    color: rgb(0, 40, 0) !important;
+}
+
+.Toastify__progress-bar--success {
+    background-color: rgb(0, 53, 0) !important; 
+}
+
+.toast-error {
+    background-color: rgb(255, 179, 179) !important;
+    color: rgb(40, 0, 0) !important;
+}
+
+.Toastify__progress-bar--error {
+    background-color: rgb(53, 0, 0) !important; 
+}

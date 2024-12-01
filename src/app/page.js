@@ -14,6 +14,10 @@ import { completeTaskApi } from "../services/completeTaskApi.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPlus } from "react-icons/fa";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import showToast from "../components/showToast.js";
+
 export default function Dashboard() {
     const [tasks, setTasks] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
@@ -24,6 +28,7 @@ export default function Dashboard() {
             const response = await getTasksApi();
             if (response.status === "OK") {
                 setTasks(response.tasks);
+                showToast("success", "Tarefas carregadas com sucesso!");
             } else {
                 console.log(response.error);
             }
@@ -113,6 +118,7 @@ export default function Dashboard() {
 
     return (
         <div className="bg-dark text-light" style={{ minHeight: "100vh" }}>
+            <ToastContainer />
             <main className="container text-light p-5 rounded">
                 <h1 className="text-center mb-4">Adicionar Tarefa</h1>
                 <div className="d-flex justify-content-center">
