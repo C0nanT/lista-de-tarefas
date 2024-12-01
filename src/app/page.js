@@ -62,6 +62,7 @@ export default function Dashboard() {
             if (response.status === "OK") {
                 console.log("Tarefa deletada com sucesso!");
                 showToast("success", "Tarefa deletada com sucesso!");
+                setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
             } else {
                 console.log(response);
                 showToast("error", "#02 - Erro ao deletar tarefa!");
@@ -76,14 +77,13 @@ export default function Dashboard() {
         try {
             const response = await editTaskApi(task);
             if (response.status === "OK") {
-                console.log(response);
+                task.limit_date = new Date(task.limit_date).toLocaleDateString("pt-BR", { timeZone: "UTC" });
+                setTasks((prevTasks) => prevTasks.map((t) => (t.id === task.id ? { ...t, ...task } : t)));
                 showToast("success", "Tarefa editada com sucesso!");
             } else {
-                console.log(response);
                 showToast("error", "#02 - Erro ao editar tarefa!");
             }
         } catch (error) {
-            console.log(error);
             showToast("error", "#03 - Erro ao editar tarefa!");
         }
     }
@@ -92,7 +92,7 @@ export default function Dashboard() {
         try {
             const response = await completeTaskApi(id);
             if (response.status === "OK") {
-                response.task.doneAt = new Date(response.task.doneAt).toLocaleDateString();
+                response.task.doneAt = new Date(response.task.doneAt).toLocaleDateString("pt-BR", { timeZone: "UTC" });
                 setTasks((prevTasks) => prevTasks.map((task) => (task.id === id ? { ...task, done: response.task.done, doneAt: response.task.doneAt } : task)));
                 if (response.task.done) {
                     showToast("success", "Tarefa concluída com sucesso!");
@@ -119,7 +119,6 @@ export default function Dashboard() {
 
     const handleDelete = async (id) => {
         await deleteTask(id);
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     };
 
     const handleEdit = (task) => {
@@ -129,9 +128,6 @@ export default function Dashboard() {
 
     const handleSave = async (updatedTask) => {
         await editTask(updatedTask);
-        updatedTask.limit_date = new Date(updatedTask.limit_date).toLocaleDateString();
-        setTasks((prevTasks) => prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
-        //todo ver pq ta mostrando a data -1 dia
     };
 
     return (
