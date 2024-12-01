@@ -31,8 +31,11 @@ $ cd lista-de-tarefas-front
 # Instale as dependências
 $ npm install
 
-# Clone o arquivo .env.example para .env
+# Clone o arquivo .env.example para .env (Linux/Mac)
 $ cp .env.example .env
+
+# Clone o arquivo .env.example para .env (Windows)
+$ copy .env.example .env
 
 Adicione o valor da BASE_URL no arquivo `.env`
 
@@ -43,4 +46,3 @@ $ npm run build
 $ npm start
 
 # O servidor iniciará na porta:3000 - acesse <http://localhost:3000>
-```
