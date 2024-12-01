@@ -25,6 +25,8 @@ export default function Dashboard() {
 
     function sortTasks(tasks) {
         return tasks.sort((a, b) => {
+            if (!a.limit_date) return 1;
+            if (!b.limit_date) return -1;
             const [dayA, monthA, yearA] = a.limit_date.split("/");
             const [dayB, monthB, yearB] = b.limit_date.split("/");
             return new Date(`${yearA}-${monthA}-${dayA}`) - new Date(`${yearB}-${monthB}-${dayB}`);
@@ -53,6 +55,7 @@ export default function Dashboard() {
             if (response.status === "OK") {
                 setTasks((prevTasks) => sortTasks([...prevTasks, response.data]));
                 showToast("success", "Tarefa adicionada com sucesso!");
+                console.log(response);
             } else {
                 console.log(response);
                 showToast("error", "#02 - Erro ao adicionar tarefa!");

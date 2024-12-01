@@ -2,25 +2,30 @@ import React, { useState, useEffect } from "react";
 
 export default function EditTask({ show, handleClose, task, handleSave }) {
     const formatDate = (date) => {
+        if (!date) return "";
         const [day, month, year] = date.split("/");
         return `${year}-${month}-${day}`;
     };
 
-    const [description, setDescription] = useState(task.description || "");
-    const [category, setCategory] = useState(task.category || "");
-    const [limitDate, setLimitDate] = useState(formatDate(task.limit_date || ""));
+    const [description, setDescription] = useState(task?.description || "");
+    const [category, setCategory] = useState(task?.category || "");
+    const [limitDate, setLimitDate] = useState(task?.limit_date ? formatDate(task.limit_date) : "");
 
     useEffect(() => {
-        if (show) {
+        if (show && task) {
             setDescription(task.description || "");
             setCategory(task.category || "");
-            setLimitDate(formatDate(task.limit_date || ""));
+            setLimitDate(task.limit_date ? formatDate(task.limit_date) : "");
         }
     }, [show, task]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const formData = { description, category, limit_date: limitDate };
+        const formData = {
+            description: description.trim(),
+            category: category.trim(),
+            limit_date: limitDate || null,
+        };
         handleSave({ ...task, ...formData });
         handleClose();
     };
